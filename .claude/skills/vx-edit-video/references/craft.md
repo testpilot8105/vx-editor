@@ -1,7 +1,7 @@
 # Craft: what landed with the owner and what did not
 
-Written 15.10.2026 from the first full reel edited for the owner (the New Reel, built in `Reels/` before VX Editor's kit
-could do it). Every rule below cost a round of notes, most of them angry. Read this before the first build of a video.
+Written from the first full reels edited with this kit. Every rule below cost a round of notes. Read this before the
+first build of a video.
 
 ## How the owner reviews
 
@@ -13,15 +13,15 @@ could do it). Every rule below cost a round of notes, most of them angry. Read t
 - "Make the text more visible" means contrast (a shadow, a backdrop, a colour that stands off what is behind it). It
   does not mean new weights or sizes; changing those unasked was called out at once.
 - They decide at a glance from pictures. A tiled sheet of stills beats a paragraph. A question with options they can
-  click beats an open question, but when they are angry, do not ask: fix, then show.
+  click beats an open question, but when they are frustrated, do not ask: fix, then show.
 
 ## Footage and audio
 
 - Transcribe every clip before asking anything about them, then describe each clip by its words. A short second clip
   is usually a retake of one line of the first (here: the last sentence, said tighter), not a separate video. Say which
   line it replaces and recommend clip 1 with that line swapped.
-- Ask for the owner's own words at the start whenever the speech is not all English. Whisper turned "Gusto mo ba
-  gumawa ng content" into English nonsense and "Claude" into "Cloud".
+- Ask for the owner's own words at the start whenever the speech is not all English. Whisper can turn a Tagalog
+  line into English nonsense, and "Claude" into "Cloud".
 - A false start ("and since ... and since these animations") is a mistake to cut; check the seconds before a retake for
   a repeated phrase.
 - The camera's first half second is an exposure fade: start after it. The last half second is the owner reaching for
@@ -33,7 +33,7 @@ could do it). Every rule below cost a round of notes, most of them angry. Read t
 - Once the cut is approved, bake the voice into one continuous WAV and play it as a single audio layer; mute the
   picture cuts. Per-cut audio restarts at every cut in Studio and the owner hears it as chopped. Re-bake after any change
   to the cut and reload Studio (it keeps serving the old file).
-- Speed: only when the owner asks ("crank the speed a bit" meant 1.1x). Whole video, pitch kept, then re-bake the voice
+- Speed: only when the owner asks (a little faster meant 1.1x). Whole video, pitch kept, then re-bake the voice
   and redo any cutouts.
 
 ## Picture
@@ -42,7 +42,7 @@ could do it). Every rule below cost a round of notes, most of them angry. Read t
   shift the footage to the middle and zoom by the least amount that keeps the edge covered (53 px needed 10%). Apply the
   same framing everywhere the footage appears: talking shots, the hook plate and cutout, phones, card previews and
   thumbnails. Missing the small ones was called out.
-- Grade: ask before touching skin. A warm, contrasty grade made the owner look tired; a light cool-neutral grade with a
+- Grade: ask before touching skin. A warm, contrasty grade can make a face look tired; a light cool-neutral grade with a
   small brightness lift and a soft vignette was kept. No blur, smoothing or glow on the face: two attempts were called
   ugly. If they want a retouch, they supply retouched clips; keep the grade on top of them.
 - Fine moving grain over the whole video was kept.
@@ -50,9 +50,9 @@ could do it). Every rule below cost a round of notes, most of them angry. Read t
 ## Type and captions
 
 - Captions on footage: centred (measure equal gaps left and right), white, bold, sentence case as spoken, the key word
-  in the accent. A narrow soft dark band only behind the caption line, clear above and below, so the shirt stays bright.
-- The accent must stand off what is behind it: a light papaya washed out on the cream wall, a deep one sank into the
-  papaya shirt. `#FF7D24` worked on both, with a soft dark shadow on the wall.
+  in the accent. A narrow soft dark band only behind the caption line, clear above and below, so the clothes stay bright.
+- The accent must stand off what is behind it: a light papaya washed out on a cream wall, a deep one sank into an
+  orange shirt. `#FF7D24` worked on both, with a soft dark shadow on the wall.
 - Hook: big kinetic words set on the wall with the person cut out in front so the hair crosses the letters. Build the
   plate from the very frames the cutout was made from, or the two drift and the owner sees a second layer. A soft
   white gradient down from the top lifts the type off a busy wall.
@@ -63,7 +63,7 @@ could do it). Every rule below cost a round of notes, most of them angry. Read t
 
 - What landed: an off-white canvas with a faint grid, kinetic type in mixed weights (light grey regular beside bold
   black), each word lifting out of a short blur; floating rounded cards with deep soft shadows, tilted a little in 3D;
-  one smooth no-bounce ease everywhere; one accent from the owner's shirt.
+  one smooth no-bounce ease everywhere; one accent colour.
 - What was rejected: slanted condensed motorsport type, halftone dots, hard papaya blocks, heavy wipes, Swiss block
   layouts, HUD labels. A mood board of stills (F1 graphics, VHS sleeves, a car poster) sent three looks the wrong way;
   the owner's real target was a video whose editing they wanted. Ask for that video.

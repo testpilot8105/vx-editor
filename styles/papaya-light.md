@@ -1,9 +1,8 @@
 # Style profile: papaya-light
 
-Saved 15.10.2026 from the New Reel, the first reel the owner signed off: an off-white canvas with a faint grid for the
-graphics, kinetic Archivo in mixed weights (light grey beside bold black), floating rounded cards with soft deep
-shadows, and one papaya accent taken from the owner's McLaren shirt. On the talking shots: white captions, centred,
-with the key word in papaya.
+The look that comes with VX Editor: an off-white canvas with a faint grid for the graphics, kinetic Archivo in mixed
+weights (light grey beside bold black), floating rounded cards with soft deep shadows, and one papaya orange accent.
+On the talking shots: white captions, centred, with the key word in papaya.
 
 The `json` block below is what the video parts read (scripts/index-videos.mjs). Everything outside it is for people.
 Change a value by telling Claude what you want; it edits the block and the reason goes under "Rules learned".
@@ -81,22 +80,20 @@ Change a value by telling Claude what you want; it edits the block and the reaso
 
 ## Rules learned
 
-Newest first, each with its date and the video it came from.
+What this look already knows. Your own notes are added here, newest first, each with its date and the video it came
+from.
 
-- 15.10.2026, New Reel: "make it more pop like visible" on the hook meant contrast, not weight. Keep the weights; add a
-  soft dark shadow and a soft white wash down from the top behind the type.
-- 15.10.2026, New Reel: one papaya everywhere, `#FF7D24`. The lighter `#FFB15C` vanished on the cream wall; the deeper
-  `#FF6A00` read red.
-- 15.10.2026, New Reel: "cut the ending a lil short, I'm pressing stop": end about 0.2 s after the last word.
-- 15.10.2026, New Reel: "centerize myself": the head centred in every shot and every place the footage appears.
-- 15.10.2026, New Reel: "add some black fading below so the text is visible, don't overdo it" then "so my shirt is
-  still visible": a narrow band behind the caption line only.
-- 15.10.2026, New Reel: "I look haggard": a cooler, gentler grade. Blur and glow on the face were called ugly twice;
-  retouched clips come from the owner.
-- 15.10.2026, New Reel: "crank the speed a bit": the whole video at 1.1x, pitch kept.
-- 15.10.2026, New Reel: "remove Claude Code + Remotion" from the end; the end card is a follow call to action.
-- 15.10.2026, New Reel: "the motion graphics part doesn't have its own illustration": every concept named gets a beat.
-- 15.10.2026, New Reel: "cheap", "eyesore", "noisy": no slanted condensed type, halftone, hard colour blocks, tiny
-  labels or corner furniture. The light kinetic look above is the one that landed.
-- 15.10.2026, New Reel: gaps and blinks between graphics were the worst notes: hard cuts in and out, nothing
-  half-transparent, no empty panel ever crossing the frame.
+- A note to make the hook stand out means contrast, not weight. Keep the weights; add a soft dark shadow and a soft
+  white wash down from the top behind the type.
+- One papaya everywhere, `#FF7D24`. A lighter `#FFB15C` vanishes on a cream wall; a deeper `#FF6A00` reads red.
+- End about 0.2 s after the last word, before the hand reaching for the stop button.
+- The speaker's head is centred in every shot and every place the footage appears.
+- For caption contrast, a narrow soft dark band behind the caption line only, so the rest of the picture stays bright.
+- A cooler, gentler grade on faces. No blur or glow on the face; a retouch comes as retouched clips from the owner.
+- Speed only when asked: the whole video at 1.1x, pitch kept.
+- The end card is a follow call to action, with no tool credits.
+- Every concept the voice names gets its own picture.
+- No slanted condensed type, halftone, hard colour blocks, tiny labels or corner furniture. The light kinetic look
+  above is the one that holds up.
+- No gaps or blinks between graphics: hard cuts in and out, nothing half-transparent, no empty panel ever crossing the
+  frame.

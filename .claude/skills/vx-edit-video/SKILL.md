@@ -166,7 +166,7 @@ Everything goes into `edit.json`; the kit reads it. Shapes and examples: `refere
 - Fix exactly what the note names and nothing next to it. "More visible" is contrast, not new weights or sizes. Answer
   with what you measured, never "should be fixed".
 - Two rounds on the same note without landing it: stop, show two or three options as stills, ask. This is a hard stop:
-  a third blind attempt at a look is what turned the New Reel sitting angry.
+  a third blind attempt at a look is what loses the owner's trust.
 
 ## 8. Final
 
