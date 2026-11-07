@@ -1,0 +1,5 @@
+# Text files keep LF line endings on every computer. On Windows, git would otherwise check them out with CRLF, and the
+# scripts would then fail to read the style profiles. Windows command files keep CRLF.
+* text=auto eol=lf
+*.cmd text eol=crlf
+*.bat text eol=crlf

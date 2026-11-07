@@ -65,7 +65,8 @@ Be proactive. Based on the topic of this video, suggest where to look and what t
 - Their own saved posts.
 
 Options: "I'll paste links or drop screenshots" / "Use my last video as the peg" / "No pegs, use the profile".
-For a link: say what you can and cannot see from it. For a video peg, step through it frame by frame (8 to 12 moments)
+For links: run the taste step in SKILL.md ("Taste from reference links": references.mjs downloads each and makes its
+sheet). For a video peg, step through it frame by frame (8 to 12 moments)
 before designing anything. For a local video in `refs/`: pull a few frames with ffmpeg and look at them. Write down, in
 `beats.md`, what you take from each peg: background, type weights and sizes, caption size and place, how graphics
 enter and leave, cut pace. Then show a sheet of two or three stills in that direction before building.

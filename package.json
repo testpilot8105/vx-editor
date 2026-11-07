@@ -1,8 +1,8 @@
 {
-  "name": "vx-reel-edit",
+  "name": "vx-editor",
   "private": true,
   "type": "module",
-  "description": "VX Reel Edit: drop in a video, Claude Code edits it into a reel. Rendered with Remotion.",
+  "description": "VX Editor: drop in a video, Claude Code edits it into a reel. Rendered with Remotion.",
   "scripts": {
     "setup": "node scripts/setup.mjs",
     "studio": "remotion studio",

@@ -28,7 +28,7 @@ Times are always moments in a source clip: `{ "clip": "a", "t": 12.4 }`, in that
   ],
   "sfx": [{ "at": { "clip": "a", "t": 8.7 }, "src": "library/sfx/air-woosh.wav", "volume": 0.6 }],
   "music": { "src": "library/music/track.mp3", "volume": 0.065 },
-  "end": { "title": "Made with VX Reel Edit", "line": "optional second line", "seconds": 2 }
+  "end": { "title": "Made with VX Editor", "line": "optional second line", "seconds": 2 }
 }
 ```
 

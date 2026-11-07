@@ -4,6 +4,8 @@ node_modules/
 # Your videos, your notes and the speech model stay on your computer, never in git.
 media/videos/*
 !media/videos/.gitkeep
+media/references/*
+!media/references/.gitkeep
 media/library/broll/*
 media/library/music/*
 media/library/sfx/*

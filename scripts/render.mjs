@@ -1,12 +1,15 @@
 // Renders a video. First the hook's cutout frames when they are missing or out of date (scripts/matte.mjs), then the
 // index, which bakes the voice into one track when the cut changed (scripts/voice.mjs). A draft is half size (fast, fine on a phone) and numbered v1, v2...; the final is full size.
 // Then the sound is mastered to about -14 LUFS with peaks at or under -1.5 dBTP (two-pass loudnorm aimed at -2, since
-// AAC adds a little on encode; picture copied untouched), and a copy goes to iCloud Drive/VX Reel Edit so it shows up on the phone.
-// Usage: node scripts/render.mjs <video> [--draft|--final]
+// AAC adds a little on encode; picture copied untouched). With --phone, a copy also goes to iCloud Drive/VX Editor so it
+// shows up on the phone; by default nothing is copied there.
+// In a workspace (this folder named "00 System"), a final also goes to the workspace's "03 Exports" folder as
+// "<video folder> final.mp4"; a draft never does.
+// Usage: node scripts/render.mjs <video> [--draft|--final] [--phone]
 import { copyFileSync, existsSync, mkdirSync, readdirSync, renameSync } from 'node:fs';
 import { homedir } from 'node:os';
 import { basename, join } from 'node:path';
-import { ffmpeg, hookFramesOf, readJson, remotion, ROOT, run, videoDir } from './lib.mjs';
+import { ffmpeg, hookFramesOf, readJson, remotion, ROOT, run, videoDir, workspaceDir } from './lib.mjs';
 
 const args = process.argv.slice(2);
 const final = args.includes('--final');
@@ -40,11 +43,19 @@ renameSync(rawRender, join(outDir, `.unmastered-${name}`));
 
 const icloud = join(homedir(), 'Library/Mobile Documents/com~apple~CloudDocs');
 let phone = null;
-if (existsSync(icloud)) {
-  mkdirSync(join(icloud, 'VX Reel Edit'), { recursive: true });
-  phone = join(icloud, 'VX Reel Edit', `${edit.id}-${name}`);
+if (args.includes('--phone') && existsSync(icloud)) {
+  mkdirSync(join(icloud, 'VX Editor'), { recursive: true });
+  phone = join(icloud, 'VX Editor', `${edit.id}-${name}`);
   copyFileSync(target, phone);
 }
+const exportsDir = final ? workspaceDir('exports') : null;
+let exported = null;
+if (exportsDir) {
+  mkdirSync(exportsDir, { recursive: true });
+  exported = join(exportsDir, `${basename(dir)} ${name}`);
+  copyFileSync(target, exported);
+}
 console.log(`Done: ${target}\nLoudness before mastering ${m.input_i} LUFS, peak ${m.input_tp} dBTP.`);
-console.log(phone ? `On your phone: Files > iCloud Drive > VX Reel Edit > ${edit.id}-${name}` : 'No iCloud Drive on this computer; send the file to your phone yourself.');
+if (phone) console.log(`On your phone: Files > iCloud Drive > VX Editor > ${edit.id}-${name}`);
+if (exported) console.log(`Your finished video is in the 03 Exports folder, named "${basename(exported)}": ${exported}`);
 console.log(`Next: node scripts/verify.mjs ${basename(dir)} ${name}`);

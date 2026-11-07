@@ -1,5 +1,5 @@
 #!/bin/sh
-# VX Reel Edit: double-click to open Remotion Studio in the browser and Claude Code in this folder.
+# VX Editor: double-click to open Remotion Studio in the browser and Claude Code in this folder.
 cd "$(dirname "$0")" || exit 1
 if ! command -v node >/dev/null 2>&1; then
   echo "Node is not installed. Get it from nodejs.org, then double-click this again."

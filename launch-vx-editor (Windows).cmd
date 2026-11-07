@@ -1,5 +1,5 @@
 @echo off
-rem VX Reel Edit: double-click to open Remotion Studio in the browser and Claude Code in this folder.
+rem VX Editor: double-click to open Remotion Studio in the browser and Claude Code in this folder.
 cd /d "%~dp0"
 where node >nul 2>nul || (echo Node is not installed. Get it from nodejs.org, then double-click this again. & pause & exit /b 1)
 where pnpm >nul 2>nul || call npm install -g pnpm

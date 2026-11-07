@@ -1,6 +1,6 @@
 ---
 name: vx-edit-video
-description: VX Reel Edit, the video editor. Raw footage in, an edited video out (cut pauses and mistakes, captions, hook, motion graphics, b-roll, sound effects, music), rendered with Remotion, checked, and sent to the owner's phone; notes in plain words (Taglish too) are fixed and the taste ones are remembered in the style profile. Use when the owner drops a video and asks to edit it, cut it, caption it, add graphics or sound, make a reel, or gives notes on a draft.
+description: VX Editor, the video editor. Raw footage in, an edited video out (cut pauses and mistakes, captions, hook, motion graphics, b-roll, sound effects, music), rendered with Remotion, checked, and sent to the owner's phone; notes in plain words (Taglish too) are fixed and the taste ones are remembered in the style profile. Use when the owner drops a video and asks to edit it, cut it, caption it, add graphics or sound, make a reel, or gives notes on a draft.
 allowed-tools: Bash(node scripts/*), Bash(npx remotion *), Bash(npx tsc *), Bash(pnpm *), Bash(ls *), Bash(cp *), Bash(mkdir *), Bash(ffprobe *), Bash(git *), Read, Edit, Write, Glob, Grep, AskUserQuestion
 ---
 
@@ -13,6 +13,11 @@ typeface yourself.
 
 Read `references/craft.md` before the first build of every video: what landed with the owner, what was rejected, and
 the checks that caught what eyes missed. It cost a full sitting of notes to learn.
+
+**In a workspace.** When this folder is named `00 System`, the folder above it is the owner's project folder (the
+workspace): the one they open in Claude Code, under any name they like. Raw videos wait in `01 Raw Footage`, reference
+videos land in `02 References`, finished videos go to `03 Exports`. Run the scripts from `00 System`. Outside a
+workspace everything stays in `media/` as below.
 
 ## 0. Plan mode or not
 
@@ -31,6 +36,8 @@ the checks that caught what eyes missed. It cost a full sitting of notes to lear
   take one from what they said.
 - `node scripts/ingest.mjs "<name>" <file> [<file2> ...] --style <profile>`: copies (never moves) into
   `media/videos/<DD.MM.YYYY>-<name>/raw/` as clips a, b, c in the order given. A retake goes in as its own clip.
+  In a workspace, `node scripts/ingest.mjs` alone lists the videos in `01 Raw Footage`, and a file there is named by
+  its file name alone (`node scripts/ingest.mjs "<name>" IMG_1234.MOV`).
 - `node scripts/transcribe.mjs <video>`: local Whisper, nothing leaves the computer. Use `--lang tl` or `--lang en`
   when auto picks the wrong one.
 - If the owner gives their own words (a script, a caption draft), save them as `script.txt` in the video folder:
@@ -59,7 +66,7 @@ type their own answer. Full wording and options: `references/intake.md`.
 | The look | Which style profile (or a new one), headline font, caption font and style, key words |
 | Layers | Motion graphics, sound effects, b-roll, music |
 | Finish | Grade on the footage, end card call to action, speed |
-| Pegs | One video whose editing they want (motion, pace, type), and separately any mood board (colour, shapes). Be proactive: name where to look and what to search for, based on this video's topic; take links or screenshots into `refs/` and say what you take from each |
+| Pegs | One video whose editing they want (motion, pace, type), and separately any mood board (colour, shapes). Be proactive: name where to look and what to search for, based on this video's topic. Links go through the taste step below; screenshots into `refs/`. Say what you take from each |
 
 - Watch a video peg frame by frame before designing and write down its background, type weights and sizes, how things
   enter and leave, and the pace. A mood board of stills alone sent three looks the wrong way.
@@ -70,6 +77,24 @@ type their own answer. Full wording and options: `references/intake.md`.
 - Fonts come only from the owner: they name one, drop a file into `media/library/fonts/`, or keep the profile's.
 - Write the answers that are about taste into the profile's json block and its intake table; the ones about this video
   only go into `edit.json`.
+
+### Taste from reference links
+
+When the owner pastes 3 to 5 links to videos they like (the pegs round, or any time). **Inspired by them, not a copy:**
+take their pacing, caption treatment, colour, energy and structure; never copy their text, logos, graphics or a layout
+one-to-one.
+
+1. `node scripts/references.mjs <url> <url> ...`: downloads each (mp4, at most 1080p) into `02 References` (or
+   `media/references/`), makes `<name>-sheet.jpg` and prints the cut count. `--transcript` when the words' pace or the
+   hook's wording matters (heard on this computer); `--cookies chrome` (or safari, firefox, edge) when a site wants a
+   login. A video file the owner already has works in place of a link.
+2. Read every sheet with the Read tool. Per reference, note: cut pace, caption size, place, case and how words appear,
+   colour and grade, energy (punch-ins, motion, sound), how it opens and ends. Keep what most of them share.
+3. Write it into the owner's style profile in `styles/`: extend the one in use, or start a new one for a new look.
+   Values go in the json block (caption style and maxWords, feel, colours, grade), the rest under "The look in words",
+   and a dated line under "Rules learned". No creator name, handle, link or brand in the profile.
+4. Fonts still come only from the owner: describe the type you saw ("heavy condensed caps") and ask for a face, or keep
+   the profile's. Then show the look as a still (above) before building.
 
 ## 3. Rough cut
 
@@ -118,7 +143,7 @@ Everything goes into `edit.json`; the kit reads it. Shapes and examples: `refere
 
 ## 6. Draft, check, phone
 
-1. `node scripts/render.mjs <video> --draft`: half size, `out/v<n>.mp4`, mastered, copied to iCloud Drive/VX Reel Edit.
+1. `node scripts/render.mjs <video> --draft`: half size, `out/v<n>.mp4`, mastered. Add `--phone` for a copy in iCloud Drive/VX Editor.
 2. `node scripts/verify.mjs <video>`: then **Read both contact sheets** (`out/v<n>-cuts.jpg`, `out/v<n>-hook.jpg`).
    To see graphics where they land: `node scripts/frames.mjs <video> v<n>.mp4 12.4s,15s,...` and read the sheet.
    Look for: captions over the mouth or chin, a card over the face, captions under where the app's buttons sit (the bottom fifth and the
@@ -147,7 +172,8 @@ Everything goes into `edit.json`; the kit reads it. Shapes and examples: `refere
 
 Render the final only when the owner says so ("don't export, I'll eyeball it in Studio" means wait).
 `node scripts/render.mjs <video> --final` (full size), verify again, and remind the owner to watch it on the phone
-before posting. For 1440p ask once; a 1080x1920 composition at `--scale` 1.3333 gives 1440x2560 (the footage is
+before posting. In a workspace the final is also copied to `03 Exports` as `<video folder> final.mp4`: tell the owner
+it is there. For 1440p ask once; a 1080x1920 composition at `--scale` 1.3333 gives 1440x2560 (the footage is
 upscaled). Commit the edit (`git add` the video's edit files, the profile, any new custom graphic by path).
 
 ## Never

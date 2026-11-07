@@ -1,4 +1,4 @@
-# VX Reel Edit - an AI video editor for Claude Code: raw footage in, an edited video out, rendered with Remotion
+# VX Editor: an AI video editor for Claude Code. Raw footage in, an edited video out, rendered with Remotion
 
 The owner drops a video and says what they want; Claude edits it like a person would, renders it, checks it, puts it
 on the owner's phone, and takes notes in plain words (Taglish included). The skill is `/vx-edit-video`
@@ -21,7 +21,7 @@ The hook `.claude/hooks/plan-intake.mjs` says the same on every prompt sent in p
 | `src/kit/` | The video parts: the cut and its framing (Footage), captions (reveal, punch, line, lift), hook, card, title, lower third, b-roll, end card, sound, grain; the light kinetic parts (Light: canvas scenes, kinetic titles, floating cards, the hook with the cutout, the follow card) |
 | `src/custom/` | Graphics made for one video and kept for the next |
 | `src/gen.ts` | Written by `scripts/index-videos.mjs`; never edit by hand |
-| `scripts/` | ingest, transcribe, pin-words, find-mistakes, cut-pauses, index-videos, voice (one baked voice track), matte (the hook cutout and the head measure), render, verify. Each says its usage at the top |
+| `scripts/` | ingest, transcribe, pin-words, find-mistakes, cut-pauses, index-videos, voice (one baked voice track), matte (the hook cutout and the head measure), render, verify, references (reference videos with yt-dlp, a contact sheet each). Each says its usage at the top |
 | `whisper/` | The local speech model (not in git) |
 
 `pnpm studio` opens Remotion Studio; the launchers do that and open Claude Code here.
@@ -62,5 +62,5 @@ The hook `.claude/hooks/plan-intake.mjs` says the same on every prompt sent in p
 
 ## Remotion licence
 
-Free for an individual and for companies of up to 3 people (Remotion AG, Zurich). Anyone using VX Reel Edit at a
+Free for an individual and for companies of up to 3 people (Remotion AG, Zurich). Anyone using VX Editor at a
 company of 4 or more people needs Remotion's company licence (remotion.dev/license).

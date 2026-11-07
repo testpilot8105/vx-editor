@@ -20,7 +20,7 @@ export type VideoProps = { edit: Edit; style: Style; words: Word[]; voice?: stri
 // A scene that hands straight over to the next one stays mounted this long under it, so nothing blinks through.
 const HANDOFF = 20;
 
-/** One VX Reel Edit video: the cut talking head, then b-roll, graphics and captions over it, then the end card; voice,
+/** One VX Editor video: the cut talking head, then b-roll, graphics and captions over it, then the end card; voice,
  *  sound effects and music underneath. Everything is read from the edit and its style profile. */
 export const Video: React.FC<VideoProps> = ({ edit: e, style: s, words, voice, hookFrames }) => {
   const placed = useMemo(() => keptWords(e, words), [e, words]);

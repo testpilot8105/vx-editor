@@ -4,11 +4,23 @@ import whisper from '@remotion/install-whisper-cpp';
 import { createHash } from 'node:crypto';
 import { existsSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { homedir } from 'node:os';
-import { join, relative } from 'node:path';
+import { basename, dirname, join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 export const ROOT = fileURLToPath(new URL('..', import.meta.url));
 export const MEDIA = join(ROOT, 'media');
+
+/** The workspace this folder sits in: when this folder is named exactly "00 System", its parent (the folder opened in
+ *  Claude Code) is the workspace, with "01 Raw Footage", "02 References" and "03 Exports" next to it. Otherwise null,
+ *  and everything stays inside this folder as before. */
+export const workspaceRoot = () => (basename(resolve(ROOT)) === '00 System' ? dirname(resolve(ROOT)) : null);
+const WORKSPACE_DIRS = { raw: '01 Raw Footage', references: '02 References', exports: '03 Exports' };
+/** One folder of the workspace by kind (raw, references, exports), or null outside a workspace. Not created here. */
+export const workspaceDir = (kind) => {
+  if (!WORKSPACE_DIRS[kind]) throw new Error(`No workspace folder "${kind}": use raw, references or exports.`);
+  const ws = workspaceRoot();
+  return ws ? join(ws, WORKSPACE_DIRS[kind]) : null;
+};
 
 export const readJson = (p) => JSON.parse(readFileSync(p, 'utf8'));
 export const writeJson = (p, v) => writeFileSync(p, `${JSON.stringify(v, null, 2)}\n`);
@@ -32,7 +44,7 @@ const which = (bin) => {
   }
 };
 const toolCache = {};
-const tool = (bin) => {
+const tool = (bin, missing) => {
   if (toolCache[bin]) return toolCache[bin];
   const exe = process.platform === 'win32' ? `${bin}.exe` : bin;
   const places =
@@ -42,11 +54,17 @@ const tool = (bin) => {
   const found = which(bin) ? bin : places.find((p) => existsSync(p));
   if (!found)
     throw new Error(
-      `${bin} is not installed. On a Mac: brew install ffmpeg. On Windows: winget install --id Gyan.FFmpeg -e (then open a new terminal).`,
+      missing ?? `${bin} is not installed. On a Mac: brew install ffmpeg. On Windows: winget install --id Gyan.FFmpeg -e (then open a new terminal).`,
     );
   toolCache[bin] = [found, []];
   return toolCache[bin];
 };
+/** yt-dlp, which downloads reference videos (scripts/references.mjs). */
+export const ytDlp = () =>
+  tool(
+    'yt-dlp',
+    'yt-dlp is not installed. It downloads the reference videos. On a Mac: brew install yt-dlp. On Windows: winget install -e --id yt-dlp.yt-dlp (then open a new terminal). Then run this again.',
+  )[0];
 /** The ffmpeg command and its leading arguments, for streaming its output yourself. */
 export const ffmpegTool = () => tool('ffmpeg');
 export const ffmpeg = (args) => {
@@ -56,6 +74,14 @@ export const ffmpeg = (args) => {
 export const ffprobe = (args) => {
   const [cmd, pre] = tool('ffprobe');
   return run(cmd, [...pre, ...args]);
+};
+
+/** One contact sheet of chosen frames of a video file (frame numbers, counted from 0): `cols` across, each frame
+ *  `width` pixels wide. frames.mjs and references.mjs use it. */
+export const contactSheet = (file, frames, out, { width = 240, cols = Math.min(8, frames.length) } = {}) => {
+  const sel = frames.map((f) => `eq(n\\,${f})`).join('+');
+  ffmpeg(['-y', '-loglevel', 'error', '-i', file, '-vf', `select='${sel}',scale=${width}:-2,tile=${cols}x${Math.ceil(frames.length / cols)}:padding=4`, '-frames:v', '1', '-fps_mode', 'passthrough', out]);
+  return out;
 };
 
 /** Remotion's command line, run with this same Node (no npx, so it works the same on Windows, Mac and Linux). */

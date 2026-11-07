@@ -1,6 +1,6 @@
 # Craft: what landed with the owner and what did not
 
-Written 15.10.2026 from the first full reel edited for the owner (the New Reel, built in `Reels/` before VX Reel Edit's kit
+Written 15.10.2026 from the first full reel edited for the owner (the New Reel, built in `Reels/` before VX Editor's kit
 could do it). Every rule below cost a round of notes, most of them angry. Read this before the first build of a video.
 
 ## How the owner reviews

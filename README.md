@@ -1,4 +1,4 @@
-# VX Reel Edit
+# VX Editor
 
 Drop in the video you filmed, say what you want, and Claude Code edits it like a person would: cuts the pauses and the
 mistakes, captions it, adds a hook, motion graphics, sound and an end card, renders it with Remotion, checks every
@@ -6,9 +6,18 @@ frame, and takes your notes in plain words. Taglish included.
 
 ## Install with one prompt
 
-Open Claude Code in the folder where you keep your projects and paste the prompt in
-[INSTALL-PROMPT.md](INSTALL-PROMPT.md). Claude installs what is missing, clones this repo, sets it up and checks it with
-a test render. Works on a Mac and on a Windows PC.
+Make a project folder anywhere and give it any name (for example `My Reels`), open it in Claude Code (the desktop
+app's Code tab, Local), and paste the prompt in [INSTALL-PROMPT.md](INSTALL-PROMPT.md). Claude installs what is
+missing, clones this repo into `00 System` inside that folder, makes the other three folders next to it, sets it up and
+checks it with a test render. Works on a Mac and on a Windows PC.
+
+```
+My Reels/             your project folder (any name): the one you open in Claude Code
+  00 System/          the editor (this repo); leave it alone
+  01 Raw Footage/     the videos you film
+  02 References/      videos whose style you like
+  03 Exports/         your finished videos
+```
 
 Tested end to end on a Mac. The Windows steps follow how each tool installs on Windows but have not yet been run on
 a real PC; if a step fails there, please open an issue with its message.
@@ -16,33 +25,42 @@ a real PC; if a step fails there, please open an issue with its message.
 ## What you need
 
 - [Claude Code](https://claude.com/claude-code)
-- [Node.js](https://nodejs.org) 20 or newer, git, and a full [ffmpeg](https://ffmpeg.org) (Mac: `brew install ffmpeg`;
-  Windows: `winget install -e --id Gyan.FFmpeg`). The install prompt takes care of these.
+- [Node.js](https://nodejs.org) 20 or newer, git, a full [ffmpeg](https://ffmpeg.org) (Mac: `brew install ffmpeg`;
+  Windows: `winget install -e --id Gyan.FFmpeg`) and [yt-dlp](https://github.com/yt-dlp/yt-dlp) for reference videos
+  (Mac: `brew install yt-dlp`; Windows: `winget install -e --id yt-dlp.yt-dlp`). The install prompt takes care of these.
 - About 3 GB free: the packages (about 1 GB) and a speech model (about 1.6 GB) that is downloaded once and runs on your
   own computer
 
 ## Install by hand
 
 ```bash
-git clone https://github.com/testpilot8105/vx-reel-edit.git
-cd vx-reel-edit
+mkdir "My Reels"
+cd "My Reels"
+git clone https://github.com/testpilot8105/vx-editor.git "00 System"
+cd "00 System"
 npx -y pnpm@10.33.0 install
 node scripts/setup.mjs
 ```
 
-`setup.mjs` checks Node and ffmpeg, fetches the headless browser and the speech engine and model, and makes a test
-render. Run it again any time; it only fetches what is missing.
+`My Reels` is only an example; name your project folder however you like. `setup.mjs` checks Node, ffmpeg and yt-dlp,
+fetches the headless browser and the speech engine and model, and makes a test render. When the repo sits in a folder
+named `00 System`, it also makes `01 Raw Footage`, `02 References` and `03 Exports` next to it, plus a `CLAUDE.md` and
+a `.claude/` folder in your project folder so Claude Code finds the editor from there; once you change one of those
+files, setup leaves it alone. Run it again any time; it only fetches what is missing.
 
 ## Edit a video
 
-1. Open Claude Code in the `vx-reel-edit` folder, or double-click the launcher for your system:
-   `launch-vx-reel-edit (Mac).command`, `launch-vx-reel-edit (Windows).cmd` or `launch-vx-reel-edit (Linux).sh`, which
-   also opens Remotion Studio (the live preview) in your browser.
-2. Drag your video into Claude Code and say what you want, for example "edit this into a reel". Claude runs the
-   `/vx-edit-video` skill: a few questions about the look, a plan, then a draft.
+1. Put the video you filmed in `01 Raw Footage`.
+2. Start a new Claude Code session in your project folder and say what you want, for example "edit this into a reel".
+   Claude runs the `/vx-edit-video` skill: a few questions about the look, a plan, then a draft.
 
-Your footage is copied in, never moved or changed. Edits land in `media/videos/<date>-<name>/`, renders in its `out/`.
-On a Mac with iCloud Drive, each render is also copied to `iCloud Drive/VX Reel Edit` so it shows up on your phone.
+Your footage is copied in, never moved or changed. Each edit's working files stay in
+`00 System/media/videos/<date>-<name>/` (drafts in its `out/`); finished videos land in `03 Exports`. On a Mac with
+iCloud Drive, ask for a copy on your phone and it goes to `iCloud Drive/VX Editor`.
+
+To watch the live preview (Remotion Studio), double-click the launcher for your system inside `00 System`:
+`launch-vx-editor (Mac).command`, `launch-vx-editor (Windows).cmd` or `launch-vx-editor (Linux).sh`. It opens
+Studio in your browser and Claude Code in `00 System`.
 
 ## How it works
 
@@ -62,11 +80,11 @@ Your videos, notes and the speech model are kept out of git by `.gitignore`.
 
 ## Licences
 
-- VX Reel Edit: MIT (`LICENSE`).
+- VX Editor: MIT (`LICENSE`).
 - [Remotion](https://www.remotion.dev) has its own licence: free for individuals and companies of up to 3 people;
   larger companies need a Remotion company licence ([remotion.dev/license](https://www.remotion.dev/license)).
 - Archivo: SIL Open Font License (`media/library/fonts/OFL-Archivo.txt`).
 - whisper.cpp (MIT) and MediaPipe (Apache 2.0) are downloaded on first use.
 
-Claude is an AI assistant made by Anthropic. VX Reel Edit is independent and not affiliated with or endorsed by
+Claude is an AI assistant made by Anthropic. VX Editor is independent and not affiliated with or endorsed by
 Anthropic or Remotion.

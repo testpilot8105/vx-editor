@@ -2,10 +2,12 @@
 // raw/<letter>.<ext> in the order given, probed, and its sound pulled to work/<letter>-16k.wav for transcription.
 // Writes probe.json, a poster frame per clip (work/<letter>-poster.jpg, to read where the face sits), and an edit.json
 // with the clips and no cut yet. Running it again on the same folder adds clips.
+// In a workspace (this folder named "00 System"), a file can be named by its file name alone when it is in the
+// workspace's "01 Raw Footage" folder, and with no file named, the videos there are listed.
 // Usage: node scripts/ingest.mjs <name> <file> [file...] [--style <profile>] [--format 9:16|1:1|16:9] [--fps 30]
-import { copyFileSync, existsSync, mkdirSync, readdirSync } from 'node:fs';
+import { copyFileSync, existsSync, mkdirSync, readdirSync, statSync } from 'node:fs';
 import { basename, extname, join, relative } from 'node:path';
-import { ffmpeg, MEDIA, probe, readJson, writeJson } from './lib.mjs';
+import { ffmpeg, MEDIA, probe, readJson, workspaceDir, writeJson } from './lib.mjs';
 
 const args = process.argv.slice(2);
 const flag = (k, d) => {
@@ -19,10 +21,32 @@ const style = flag('style', 'papaya-light');
 const format = flag('format', null);
 const fps = Number(flag('fps', 30));
 const [name, ...files] = args;
+const rawDir = workspaceDir('raw');
+const VIDEO = /\.(mp4|mov|m4v|mkv|webm|avi|mts|m2ts|3gp|mxf)$/i;
+const rawVideos = () => (rawDir && existsSync(rawDir) ? readdirSync(rawDir).filter((f) => VIDEO.test(f) && !f.startsWith('.')) : []);
 if (!name || !files.length) {
+  if (rawDir) {
+    const found = rawVideos();
+    console.log(
+      found.length
+        ? `Videos in "01 Raw Footage" (${rawDir}):\n${found.map((f) => `  ${f}  ${(statSync(join(rawDir, f)).size / 1e6).toFixed(1)} MB`).join('\n')}`
+        : `No videos in "01 Raw Footage" yet (${rawDir}). Drop them there, then run this again.`,
+    );
+    console.log('Usage: node scripts/ingest.mjs <name> <file name from 01 Raw Footage> [file...] [--style <profile>] [--format 9:16|1:1|16:9]');
+    process.exit(0);
+  }
   console.error('Usage: node scripts/ingest.mjs <name> <file> [file...] [--style <profile>] [--format 9:16|1:1|16:9]');
   process.exit(1);
 }
+/** The file as given, or in a workspace one from "01 Raw Footage" by its name (any case, extension optional). */
+const sourceOf = (file) => {
+  if (existsSync(file)) return file;
+  const want = basename(file).toLowerCase();
+  const hits = rawVideos().filter((f) => f.toLowerCase() === want || f.replace(/\.[^.]+$/, '').toLowerCase() === want);
+  if (hits.length === 1) return join(rawDir, hits[0]);
+  throw new Error(`No file at ${file}${rawDir ? ` and ${hits.length ? 'more than one' : 'none'} by that name in "01 Raw Footage" (${rawDir})` : ''}`);
+};
+const sources = files.map(sourceOf);
 const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 const d = new Date();
 const date = [d.getDate(), d.getMonth() + 1].map((x) => String(x).padStart(2, '0')).join('.') + `.${d.getFullYear()}`;
@@ -38,8 +62,7 @@ const edit = existsSync(editPath)
   : { id: folder.replace(/\./g, '-'), title: name, style, format: null, fps, clips: {}, segments: [], cuts: [], keyWords: [], overlays: [], sfx: [] };
 const probes = existsSync(probePath) ? readJson(probePath) : {};
 
-for (const file of files) {
-  if (!existsSync(file)) throw new Error(`No file at ${file}`);
+for (const file of sources) {
   const letter = String.fromCharCode(97 + Object.keys(edit.clips).length);
   const dest = join(dir, 'raw', `${letter}${extname(file).toLowerCase()}`);
   copyFileSync(file, dest);
